@@ -23,18 +23,22 @@ sudo chown root:root /usr/local/bin/alp
 # set editor (vim)
 # sudo update-alternatives --set editor /usr/bin/vim.basic
 
+# add path to bash profile 
+echo "export GOPATH=$HOME/go" >> ~/.bash_profile
+source ~/.bash_profile
+
 # set timezone
 timedatectl set-timezone Asia/Tokyo
 
 # send pub key
-cat << _EOS > /tmp/authorized_keys
-<cat ~/.ssh/id_isucon9.pub>
-_EOS
-sudo cat /home/isucon/.ssh/authorized_keys >> /tmp/authorized_keys
-sudo mkdir -p /home/isucon/.ssh
-sudo mv /tmp/authorized_keys /home/isucon/.ssh/
-sudo chown -R isucon.isucon /home/isucon/.ssh/
-sudo chmod 600 /home/isucon/.ssh/authorized_keys
+# cat << _EOS > /tmp/authorized_keys
+# <cat ~/.ssh/id_isucon9.pub>
+# _EOS
+# sudo cat /home/isucon/.ssh/authorized_keys >> /tmp/authorized_keys
+# sudo mkdir -p /home/isucon/.ssh
+# sudo mv /tmp/authorized_keys /home/isucon/.ssh/
+# sudo chown -R isucon.isucon /home/isucon/.ssh/
+# sudo chmod 600 /home/isucon/.ssh/authorized_keys
 
 # Create mysql dump
 mysqldump -uroot --all-databases > /tmp/mysql.dump

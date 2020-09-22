@@ -31,6 +31,7 @@ resource "google_compute_instance" "default" {
 
     # setup ssh as "isucon9-user"
     ssh-keys = "isucon9-user:${file("~/.ssh/id_isucon9.pub")}"
+    metadata_startup_script = “${file("../scripts/gce_init.sh")}”
   }
 
   service_account {
@@ -79,5 +80,10 @@ resource "google_compute_firewall" "allow-services" {
 
 resource "google_compute_network" "default" {
   name = "isucon9-network"
+}
+
+# output IP Address
+output "ip" {
+  value = google_compute_address.static_ip.address
 }
 
