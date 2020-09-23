@@ -24,14 +24,14 @@ resource "google_compute_instance" "default" {
     }
   }
 
-  metadata {
+  metadata = {
     # block project ssh-key
     # https://qiita.com/sonots/items/6982b7bd9366ca7b98fd
-    "block-project-ssh-keys" = "true"
+    block-project-ssh-keys = "true"
 
     # setup ssh as "isucon9-user"
     ssh-keys = "isucon9-user:${file("~/.ssh/id_isucon9.pub")}"
-    metadata_startup_script = “${file("../scripts/gce_init.sh")}”
+    metadata_startup_script = "${file("../scripts/gce_init.sh")}"
   }
 
   service_account {
