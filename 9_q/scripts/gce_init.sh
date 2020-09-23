@@ -10,12 +10,13 @@ sudo chsh -s /bin/bash
 
 # install tools (vim, git, htop, dstat)
 ## https://github.com/htop-dev/htop/
-sudo apt install -y vim git htop dstat
+sudo apt-get update
+sudo apt-get install -y vim git htop dstat
 
 # install tools (alp)
 # http://kazuki229.hatenablog.com/entry/2017/09/29/003314
 wget https://github.com/tkuchiki/alp/releases/download/v1.0.3/alp_linux_amd64.zip
-sudo apt install unzip
+sudo apt-get install unzip
 unzip alp_linux_amd64.zip
 sudo mv alp /usr/local/bin/alp
 sudo chown root:root /usr/local/bin/alp
@@ -41,14 +42,21 @@ timedatectl set-timezone Asia/Tokyo
 # sudo chmod 600 /home/isucon/.ssh/authorized_keys
 
 # Create mysql dump
-mysqldump -uroot --all-databases > /tmp/mysql.dump
+# mysqldump -uroot --all-databases > /tmp/mysql.dump
 
 # install isucon9 service +α
-sudo apt-get update
 sudo apt-get install -y gcc make unzip golang mysql-server mysql-client
 go get -u github.com/go-sql-driver/mysql
 go get -u github.com/gorilla/sessions
 
+# install docker for initializing data
+# https://docs.docker.com/engine/install/ubuntu/
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo apt-key fingerprint 0EBFCD88
 sudo add-apt-repository \
@@ -57,3 +65,13 @@ sudo add-apt-repository \
    stable"
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 sudo docker run hello-world
+
+# install and initialize data
+go get -d github.com/isucon/isucon9-qualify
+cd $GOPATH/src/github.com/isucon/isucon9-qualify/initial-data
+make
+
+# initialize database
+cd ./../webapp/sql
+cat 00_create_database.sql | mysql 
+./init.sh
