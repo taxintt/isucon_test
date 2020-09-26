@@ -24,10 +24,6 @@ sudo chown root:root /usr/local/bin/alp
 # set editor (vim)
 # sudo update-alternatives --set editor /usr/bin/vim.basic
 
-# add path to bash profile 
-echo "export GOPATH=$HOME/go" >> ~/.bash_profile
-source ~/.bash_profile
-
 # set timezone
 timedatectl set-timezone Asia/Tokyo
 
@@ -48,6 +44,12 @@ timedatectl set-timezone Asia/Tokyo
 sudo apt-get install -y gcc make unzip golang mysql-server mysql-client
 go get -u github.com/go-sql-driver/mysql
 go get -u github.com/gorilla/sessions
+go get -d github.com/isucon/isucon9-qualify
+
+# add path to bash profile 
+echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.bash_profile
+echo "export GOPATH=$HOME/go" >> ~/.bash_profile
+source ~/.bash_profile
 
 # install docker for initializing data
 # https://docs.docker.com/engine/install/ubuntu/
@@ -67,11 +69,10 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 sudo docker run hello-world
 
 # install and initialize data
-go get -d github.com/isucon/isucon9-qualify
-cd $GOPATH/src/github.com/isucon/isucon9-qualify/initial-data
-make
+# cd $GOPATH/src/github.com/isucon/isucon9-qualify/initial-data
+# make
 
 # initialize database
-cd ./../webapp/sql
-cat 00_create_database.sql | mysql 
-./init.sh
+# cd ./../webapp/sql
+# cat 00_create_database.sql | mysql 
+# ./init.sh
