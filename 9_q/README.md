@@ -1,16 +1,23 @@
 ## 0. create GCE Instance
 ```
 $ cd ./terraform
-$ terraform apply
+
+<!-- https://medium.com/@jryancanty/stop-downloading-google-cloud-service-account-keys-1811d44a97d9 -->
+$ {
+  export GOOGLE_OAUTH_ACCESS_TOKEN=$(gcloud auth print-access-token --project isucon)
+  terraform apply
+}
 ```
 
 ## 1. set up ssh config
 ```
 $ cd ~/.ssh
 
-<!-- add isucon-{bench,web,mysql} user -->
+// create ssh key
+$ ssh-keygen -t rsa -b 4096
+
 $ cat config
-Host isucon-bench
+Host isucon9
   HostName xxx.xxx.xxx.xxx
   User isucon9-user
   IdentityFile ~/.ssh/id_isucon9
@@ -18,8 +25,9 @@ Host isucon-bench
 
 ## 2. set up GCE Instance
 ```
-$ cd ./scripts
+$ ssh isucon9-user@xxx.xxx.xxx.xxx -i ~/.ssh/id_isucon9
 
-<!-- 本来のssh setupはこの手順で行い、ssh自体はGCP VMの機能を利用する? -->
-$ cat ./gce_init.sh | ssh isucon-{bench,web,mysql} /bin/bash
+// another way
+$ ssh isucon9 
+
 ```
