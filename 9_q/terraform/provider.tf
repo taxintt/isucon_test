@@ -1,4 +1,4 @@
 provider "google" {
-  project     = "isucon"
+  project     = "isucon-290310"
   region      = "asia-northeast1"
 }
