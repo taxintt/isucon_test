@@ -1,3 +1,4 @@
 *.zip
 /terraform/.terraform/
 /terraform/*.tfstate*
+other_scripts
